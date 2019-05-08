@@ -192,15 +192,16 @@ ga_search(const Cities& cities,
 }
 
 Cities::permutation_t threaded_ga_search(const Cities& cities, unsigned iters, unsigned pop_size, double mut_rate, unsigned nthread = 1){
-	auto best_dist = 1e100 + nthread;
+	auto best_dist;
 	auto best_ordering = Cities::permutation_t(cities.size());
-	auto best_mutex = std::mutex();
-
+	auto best_mutex = std::mutex(); //create mutex 
+	//runs ga search and finds the best ordering 
 	auto run_one_thread = [&]() {
 	   auto my_best = ga_search(cities, iters/nthread, pop_size, mut_rate);
 	   if(cities.total_path_distance(my_best) < 
 			   cities.total_path_distance(best_ordering)){
 		auto guard = std::scoped_lock(best_mutex);
+		//repeat check, maybe something changed
 		if(cities.total_path_distance(my_best) < 
 				cities.total_path_distance(best_ordering)){
 	             best_ordering = my_best;
@@ -208,9 +209,10 @@ Cities::permutation_t threaded_ga_search(const Cities& cities, unsigned iters, u
 		     }
 	    }
 	};
-
+  
   std::vector<std::thread> threads;
   for (unsigned i = 0; i < nthread; ++i) {
+    //calls lambda function
     threads.push_back(std::thread(run_one_thread));
   }
 
