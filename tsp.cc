@@ -195,6 +195,7 @@ Cities::permutation_t threaded_ga_search(const Cities& cities, unsigned iters, u
 	auto best_dist;
 	auto best_ordering = Cities::permutation_t(cities.size());
 	auto best_mutex = std::mutex(); //create mutex 
+	
 	//runs ga search and finds the best ordering 
 	auto run_one_thread = [&]() {
 	   auto my_best = ga_search(cities, iters/nthread, pop_size, mut_rate);
@@ -209,13 +210,14 @@ Cities::permutation_t threaded_ga_search(const Cities& cities, unsigned iters, u
 		     }
 	    }
 	};
-  
+  //Creates nthreads and puts them in vector threads
   std::vector<std::thread> threads;
   for (unsigned i = 0; i < nthread; ++i) {
-    //calls lambda function
+    //each thread calls lambda function
     threads.push_back(std::thread(run_one_thread));
   }
 
+  //Joins the threads together
   for (auto& t : threads) {
     t.join();
   }
