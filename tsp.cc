@@ -192,10 +192,8 @@ ga_search(const Cities& cities,
 }
 
 Cities::permutation_t threaded_ga_search(const Cities& cities, unsigned iters, unsigned pop_size, double mut_rate, unsigned nthread = 1){
-	auto best_dist;
-	auto best_ordering = Cities::permutation_t(cities.size());
+        auto best_ordering = Cities::permutation_t(cities.size());
 	auto best_mutex = std::mutex(); //create mutex 
-	
 	//runs ga search and finds the best ordering 
 	auto run_one_thread = [&]() {
 	   auto my_best = ga_search(cities, iters/nthread, pop_size, mut_rate);
@@ -206,18 +204,17 @@ Cities::permutation_t threaded_ga_search(const Cities& cities, unsigned iters, u
 		if(cities.total_path_distance(my_best) < 
 				cities.total_path_distance(best_ordering)){
 	             best_ordering = my_best;
-		     best_dist = cities.total_path_distance(my_best);
 		     }
-	    }
+	   }
 	};
-  //Creates nthreads and puts them in vector threads
+	   
+  
   std::vector<std::thread> threads;
   for (unsigned i = 0; i < nthread; ++i) {
-    //each thread calls lambda function
+    //calls lambda function
     threads.push_back(std::thread(run_one_thread));
   }
 
-  //Joins the threads together
   for (auto& t : threads) {
     t.join();
   }
@@ -226,6 +223,7 @@ Cities::permutation_t threaded_ga_search(const Cities& cities, unsigned iters, u
 
 
 }
+
 //////////////////////////////////////////////////////////////////////////////
 int main(int argc, char** argv)
 {
@@ -247,7 +245,7 @@ int main(int argc, char** argv)
 //  const auto best_ordering = exhaustive_search(cities);
 //  const auto best_ordering = randomized_search(cities, NUM_ITER);
 //  const auto best_ordering = threaded_randomized_search(cities, NUM_ITER, nthread);
-//  const auto best_ordering = granular_randomized_search(cities, NUM_ITER, nthread, granularity);
+//  const auto best_ordering = granular_randomized_search(cities, NUM_ITER, nthread, 100);
   const auto best_ordering = threaded_ga_search(cities, NUM_ITER, pop_size, mut_rate, nthread);
 
   auto out = std::ofstream("shortest.tsv");
