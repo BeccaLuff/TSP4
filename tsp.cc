@@ -200,7 +200,7 @@ Cities::permutation_t threaded_ga_search(const Cities& cities, unsigned iters, u
 	   auto my_best = ga_search(cities, iters/nthread, pop_size, mut_rate);
 	   if(cities.total_path_distance(my_best) < 
 			   cities.total_path_distance(best_ordering)){
-		auto guard = std::lock_guard(best_mutex);
+		auto guard = std::scoped_lock(best_mutex);
 		if(cities.total_path_distance(my_best) < 
 				cities.total_path_distance(best_ordering)){
 	             best_ordering = my_best;
