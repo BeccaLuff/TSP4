@@ -14,17 +14,17 @@ The ./tsp program takes 3 arguments, filename for cities, population size, mutat
 ### Which parameters did you choose? 
 Our best tour came while experimenting. We had:
 
-NUM_ITER = 9'000'000
+NUM_ITER = 2'000'000
 
 pop_size = 1'000
 
-mut_rate = 10 
+mut_rate = .2 
 
 nthread  = 4
 
 More Specifically,
 
-time ./tsp challenge.tsv 1000 10 4
+time ./tsp challenge.tsv 1000 .2 4
 
 ### How long is the resulting best tour you found?
 Our best tour was  5708.72
