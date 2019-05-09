@@ -12,11 +12,27 @@ The ./tsp program takes 3 arguments, filename for cities, population size, mutat
 
 # Questions 
 ### Which parameters did you choose? 
-num_iter, pop_size, mut_rate, nthread.
+Our best tour came while experimenting. We had:
+
+NUM_ITER = 9'000'000
+
+pop_size = 1'000
+
+mut_rate = 10 
+
+nthread  = 4
+
+More Specifically,
+
+time ./tsp challenge.tsv 1000 10 4
+
 ### How long is the resulting best tour you found?
+Our best tour was  5708.72
 
 ### What is the run time? 
-how does it compare to a single-threaded run time (use the same parameters to compare, except nthread=1).
+My computer has 4 cores, and each test was run with the parameters mentionde above.
+
+With 4 threads the real time is 29.723 seconds. This is about 34% of the real time with 1 thread. The real time with 1 thread is 1 minute and 21.48 seconds. With 2 threads the run time is 37.846 seconds. This is 46% of 1 threads real time.
 
 ## Authors
 
