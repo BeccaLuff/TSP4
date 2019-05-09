@@ -2,7 +2,7 @@
 
 ### Prerequisites
 
-You must use c++17 and g++-8 for pthreads to compile correctly.
+You must use c++17 and g++-8 for pthreads to compile correctly. You also must include -pthread in the compilation. Refer to the make file.
 
 
 ### Installing
