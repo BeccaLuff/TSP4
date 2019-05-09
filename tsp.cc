@@ -192,7 +192,7 @@ ga_search(const Cities& cities,
 }
 
 Cities::permutation_t threaded_ga_search(const Cities& cities, unsigned iters, unsigned pop_size, double mut_rate, unsigned nthread = 1){
-        auto best_ordering = Cities::permutation_t(cities.size());
+        auto best_ordering = random_permutation(cities.size());
 	auto best_mutex = std::mutex(); //create mutex 
 	//runs ga search and finds the best ordering 
 	auto run_one_thread = [&]() {
